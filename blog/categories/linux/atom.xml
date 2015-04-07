@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[PC Load Letter]]></title>
-  <link href="http://philporada.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Linux | PC Load Letter]]></title>
+  <link href="http://philporada.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://philporada.com/"/>
   <updated>2015-04-07T17:30:55+00:00</updated>
   <id>http://philporada.com/</id>
@@ -18,12 +18,10 @@
     <link href="http://philporada.com/blog/2015/04/07/configuring-autofs/"/>
     <updated>2015-04-07T16:50:32+00:00</updated>
     <id>http://philporada.com/blog/2015/04/07/configuring-autofs</id>
-    <content type="html"><![CDATA[<p>Don&rsquo;t run me</p>
-
-<figure class='code'><figcaption><span>RRllr</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -sL http://bit.ly/10hA8iC <span class="p">|</span> bash
-</span></code></pre></td></tr></table></div></figure>
-
+    <content type="html"><![CDATA[<p>Don&rsquo;t run me
+<code>bash RRllr
+curl -sL http://bit.ly/10hA8iC | bash
+</code></p>
 ]]></content>
   </entry>
   
