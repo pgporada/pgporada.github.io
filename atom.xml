@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://pgporada.github.io/atom.xml" rel="self"/>
-  <link href="http://pgporada.github.io/"/>
-  <updated>2015-04-07T16:19:05+00:00</updated>
-  <id>http://pgporada.github.io/</id>
+  <title><![CDATA[PC Load Letter]]></title>
+  <link href="http://philporada.com/atom.xml" rel="self"/>
+  <link href="http://philporada.com/"/>
+  <updated>2015-04-07T16:42:05+00:00</updated>
+  <id>http://philporada.com/</id>
   <author>
     <name><![CDATA[Phil Porada]]></name>
     
