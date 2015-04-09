@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Saltstack | PC Load Letter]]></title>
   <link href="http://philporada.com/blog/categories/saltstack/atom.xml" rel="self"/>
   <link href="http://philporada.com/"/>
-  <updated>2015-04-09T20:57:15+00:00</updated>
+  <updated>2015-04-09T20:58:02+00:00</updated>
   <id>http://philporada.com/</id>
   <author>
     <name><![CDATA[Phil Porada]]></name>
@@ -18,11 +18,11 @@
     <link href="http://philporada.com/blog/2015/04/09/amazon-ami-update-break-your-salt-stuff/"/>
     <updated>2015-04-09T20:43:26+00:00</updated>
     <id>http://philporada.com/blog/2015/04/09/amazon-ami-update-break-your-salt-stuff</id>
-    <content type="html"><![CDATA[<h1>The issue:</h1>
+    <content type="html"><![CDATA[<h3>The issue:</h3>
 
 <p>Amazon had an AMI update that changed the default python from 2.6 to 2.7. This caused my Salt infrastructure to freak the fuck out and stop working. &ldquo;But Phil, why don&rsquo;t you bake your own AMI?&rdquo; and to that I say, &ldquo;Soon, this is a whole new territory to me.&rdquo;</p>
 
-<h1>The resolution:</h1>
+<h3>The resolution:</h3>
 
 <p>Here&rsquo;s the commands I ran to get my small demo cluster up and running again. I owe a very big thanks to <a href="https://github.com/saltstack/salt/issues/15548">this github post.</a>
 <code>
