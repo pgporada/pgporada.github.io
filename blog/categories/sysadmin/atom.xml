@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sysadmin | PC Load Letter]]></title>
   <link href="http://philporada.com/blog/categories/sysadmin/atom.xml" rel="self"/>
   <link href="http://philporada.com/"/>
-  <updated>2015-04-08T02:42:40+00:00</updated>
+  <updated>2015-04-09T20:57:15+00:00</updated>
   <id>http://philporada.com/</id>
   <author>
     <name><![CDATA[Phil Porada]]></name>
@@ -12,6 +12,58 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Amazon AMI Update Break Your Salt Stuff?]]></title>
+    <link href="http://philporada.com/blog/2015/04/09/amazon-ami-update-break-your-salt-stuff/"/>
+    <updated>2015-04-09T20:43:26+00:00</updated>
+    <id>http://philporada.com/blog/2015/04/09/amazon-ami-update-break-your-salt-stuff</id>
+    <content type="html"><![CDATA[<h1>The issue:</h1>
+
+<p>Amazon had an AMI update that changed the default python from 2.6 to 2.7. This caused my Salt infrastructure to freak the fuck out and stop working. &ldquo;But Phil, why don&rsquo;t you bake your own AMI?&rdquo; and to that I say, &ldquo;Soon, this is a whole new territory to me.&rdquo;</p>
+
+<h1>The resolution:</h1>
+
+<p>Here&rsquo;s the commands I ran to get my small demo cluster up and running again. I owe a very big thanks to <a href="https://github.com/saltstack/salt/issues/15548">this github post.</a>
+<code>
+yum -y install m4 gcc python-devel &amp;&amp; \
+wget https://ftp.gnu.org/gnu/gmp/gmp-6.0.0a.tar.bz2 &amp;&amp; \
+tar -xvjpf gmp-6.0.0a.tar.bz2 &amp;&amp; \
+cd gmp-6.0.0 &amp;&amp; \
+./configure &amp;&amp; \
+make &amp;&amp; \
+make check\
+make install &amp;&amp; \
+yum install -y python-pip &amp;&amp; \
+pip install --ignore-installed PyCrypto
+</code></p>
+
+<p>I then needed to switch the various salt commands to use python2.6 instead of python2.7.
+<code>
+sed -i 's|^#!/usr/bin/python$|#!/usr/bin/python26|' /usr/bin/salt
+sed -i 's|^#!/usr/bin/python$|#!/usr/bin/python26|' /usr/bin/salt-*
+sed -i 's|PYTHON=/usr/bin/python|PYTHON=/usr/bin/python2.6|' /etc/init.d/salt-m*
+</code></p>
+
+<p>After doing all of that, things started working again!
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@salt ~]# salt-cloud
+</span><span class='line'>Usage: salt-cloud
+</span><span class='line'>salt-cloud: error: Nothing was done. Using the proper arguments?&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;[root@salt ~]# salt &lsquo;*&rsquo; test.ping
+</span><span class='line'>saltmaster:
+</span><span class='line'>    True
+</span><span class='line'>&lt;REDACTED&gt;</span></code></pre></td></tr></table></div></figure></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Configuring AutoFS]]></title>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Linux | PC Load Letter]]></title>
-  <link href="http://philporada.com/blog/categories/linux/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Aws | PC Load Letter]]></title>
+  <link href="http://philporada.com/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://philporada.com/"/>
   <updated>2015-04-09T20:57:15+00:00</updated>
   <id>http://philporada.com/</id>
@@ -62,18 +62,6 @@ sed -i 's|PYTHON=/usr/bin/python|PYTHON=/usr/bin/python2.6|' /etc/init.d/salt-m*
 </span><span class='line'>saltmaster:
 </span><span class='line'>    True
 </span><span class='line'>&lt;REDACTED&gt;</span></code></pre></td></tr></table></div></figure></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Configuring AutoFS]]></title>
-    <link href="http://philporada.com/blog/2015/04/07/configuring-autofs/"/>
-    <updated>2015-04-07T16:50:32+00:00</updated>
-    <id>http://philporada.com/blog/2015/04/07/configuring-autofs</id>
-    <content type="html"><![CDATA[<p>Don&rsquo;t run me
-<code>bash RRllr
-curl -sL http://bit.ly/10hA8iC | bash
-</code></p>
 ]]></content>
   </entry>
   
