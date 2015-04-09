@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Aws | PC Load Letter]]></title>
   <link href="http://philporada.com/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://philporada.com/"/>
-  <updated>2015-04-09T20:58:02+00:00</updated>
+  <updated>2015-04-09T21:04:45+00:00</updated>
   <id>http://philporada.com/</id>
   <author>
     <name><![CDATA[Phil Porada]]></name>
@@ -32,7 +32,7 @@ tar -xvjpf gmp-6.0.0a.tar.bz2 &amp;&amp; \
 cd gmp-6.0.0 &amp;&amp; \
 ./configure &amp;&amp; \
 make &amp;&amp; \
-make check\
+make check &amp;&amp; \
 make install &amp;&amp; \
 yum install -y python-pip &amp;&amp; \
 pip install --ignore-installed PyCrypto

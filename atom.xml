@@ -4,7 +4,7 @@
   <title><![CDATA[PC Load Letter]]></title>
   <link href="http://philporada.com/atom.xml" rel="self"/>
   <link href="http://philporada.com/"/>
-  <updated>2015-04-09T20:58:02+00:00</updated>
+  <updated>2015-04-09T21:04:45+00:00</updated>
   <id>http://philporada.com/</id>
   <author>
     <name><![CDATA[Phil Porada]]></name>
@@ -42,7 +42,7 @@
 </span><span class='line'>cd gmp-6.0.0 && \
 </span><span class='line'>./configure && \
 </span><span class='line'>make && \
-</span><span class='line'>make check\
+</span><span class='line'>make check && \
 </span><span class='line'>make install && \
 </span><span class='line'>yum install -y python-pip && \
 </span><span class='line'>pip install --ignore-installed PyCrypto </span></code></pre></td></tr></table></div></figure>
