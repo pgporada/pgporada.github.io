@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Windows, | PC Load Letter]]></title>
   <link href="http://philporada.com/blog/categories/windows/atom.xml" rel="self"/>
   <link href="http://philporada.com/"/>
-  <updated>2015-05-11T04:27:10+00:00</updated>
+  <updated>2015-05-11T04:32:44+00:00</updated>
   <id>http://philporada.com/</id>
   <author>
     <name><![CDATA[Phil Porada]]></name>
@@ -14,11 +14,67 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Powershell Watching a Folder for File Creation Events]]></title>
+    <title type="html"><![CDATA[Powershell Watching a Folder for File Creation Events and Syncing It to S3]]></title>
     <link href="http://philporada.com/blog/2015/05/11/powershell-watching-a-folder-for-file-creation-events/"/>
     <updated>2015-05-11T04:12:37+00:00</updated>
     <id>http://philporada.com/blog/2015/05/11/powershell-watching-a-folder-for-file-creation-events</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<pre><code>#By BigTeddy 05 September 2011
+#Use case adaptation by PGP May 2015
+
+#This script uses the .NET FileSystemWatcher class to monitor file events in folder(s). 
+#The advantage of this method over using WMI eventing is that this can monitor sub-folders. 
+#The -Action parameter can contain any valid Powershell commands.  I have just included two for example. 
+#The script can be set to a wildcard filter, and IncludeSubdirectories can be changed to $true. 
+#You need not subscribe to all three types of event.  All three are shown for example. 
+# Version 1.1 
+
+Write-Host "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" -Fore Red
+Write-Host "!!!!!!!!!! READ ME !!!!!!!!!!!" -Fore Red
+Write-Host "1)+----------------------------+" -Fore Cyan
+Write-Host "You must running the following 3 commands in a separate screen and run this program again." -Fore DarkYellow
+Write-Host "These lines build the credentials for a session to S3. If we rebuild the session each time this script runs" -Fore DarkYellow
+Write-Host "then this script will transport 1 object and crash." -Fore DarkYellow
+Write-Host "Set-DefaultAWSRegion -Region &lt;YOURREGION&gt;" -fore Yellow
+Write-Host "Set-AWSCredentials -AccessKey '&lt;YOURACCESSKEY&gt;' -SecretKey '&lt;YOURSECRETKEY&gt;' -StoreAs mycreds" -fore Yellow
+#Write-Host "Initialize-AWSDefaults" -fore Yellow
+Write-Host "2)+----------------------------+" -Fore Cyan
+Write-Host "If you receive errors to stop the monitoring, run the following command." -Fore DarkYellow
+Write-Host "FileCreated' is whever the -SourceIdentifier below in the Register-Object function is set to." -Fore DarkYellow
+Write-Host "Exiting the powershell window that the script was launched from will destroy your session for you." -Fore DarkYellow
+Write-Host "Unregister-Event FileCreated" -Fore yellow
+Write-Host "3)+----------------------------+" -Fore Cyan
+Write-Host "If the script appears to be frozen, you may have clicked in the window." -Fore DarkYellow
+Write-Host "This will put you into quickedit mode from the powershell preferences." -Fore DarkYellow
+Write-Host "This WILL appear to pause your script so you don't see results, but it does allow you to copy lines." -Fore DarkYellow
+Write-Host "Just press enter a few times to fix it." -Fore DarkYellow
+Write-Host ''
+Write-Host "================================" -Fore Green
+Write-Host "[+] Kicking this whole thing off" -Fore Green
+Write-Host "================================" -Fore Green
+Write-Host ''
+Write-Host ''
+$leftside = 'C:\FOLDERNAME' # Enter the root path you want to monitor. Notice the no trailing slash
+$rightside = 's3://&lt;AWS-S3-BUCKET&gt;' # Destination, just put the root of the bucket
+$filter = '*.*'  # You can enter a file type filter here.                          
+$fsw = New-Object IO.FileSystemWatcher $leftside, $filter -Property @{IncludeSubdirectories = $true;NotifyFilter = [IO.NotifyFilters]'FileName, LastWrite'} 
+
+Register-ObjectEvent $fsw Created -SourceIdentifier FileCreated -Action { 
+    $name = $Event.SourceEventArgs.Name 
+    $changeType = $Event.SourceEventArgs.ChangeType 
+    $timeStamp = $Event.TimeGenerated
+    $date=Get-Date -format "MMddyyyy"
+    # Get the date stamp
+    $parent = split-path $name -parent
+    # Get the file name
+    $child = split-path $name -leaf
+    # This will end up creating the keys aka folders in S3 
+    Write-Host "'$name' was $changeType at $timeStamp" -fore Green
+    Write-S3Object -BucketName productiondatacopyforpoc -File "$leftside\$parent\$child" -Key "$parent/$child" -CannedACLName BucketOwnerFullControl -StoredCredentials mycreds
+}
+
+# To stop the monitoring, run the following command: 
+# Unregister-Event FileCreated
+</code></pre>
 ]]></content>
   </entry>
   

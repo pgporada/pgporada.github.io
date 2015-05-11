@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Powershell, | PC Load Letter]]></title>
-  <link href="http://philporada.com/blog/categories/powershell/atom.xml" rel="self"/>
+  <title><![CDATA[Category: S3 | PC Load Letter]]></title>
+  <link href="http://philporada.com/blog/categories/s3/atom.xml" rel="self"/>
   <link href="http://philporada.com/"/>
   <updated>2015-05-11T04:32:44+00:00</updated>
   <id>http://philporada.com/</id>
