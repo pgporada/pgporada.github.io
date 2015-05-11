@@ -4,7 +4,7 @@
   <title><![CDATA[PC Load Letter]]></title>
   <link href="http://philporada.com/atom.xml" rel="self"/>
   <link href="http://philporada.com/"/>
-  <updated>2015-04-09T21:04:45+00:00</updated>
+  <updated>2015-05-11T04:27:10+00:00</updated>
   <id>http://philporada.com/</id>
   <author>
     <name><![CDATA[Phil Porada]]></name>
@@ -14,11 +14,24 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Powershell Watching a Folder for File Creation Events]]></title>
+    <link href="http://philporada.com/blog/2015/05/11/powershell-watching-a-folder-for-file-creation-events/"/>
+    <updated>2015-05-11T04:12:37+00:00</updated>
+    <id>http://philporada.com/blog/2015/05/11/powershell-watching-a-folder-for-file-creation-events</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Amazon AMI Update Break Your Salt Stuff?]]></title>
     <link href="http://philporada.com/blog/2015/04/09/amazon-ami-update-break-your-salt-stuff/"/>
     <updated>2015-04-09T20:43:26+00:00</updated>
     <id>http://philporada.com/blog/2015/04/09/amazon-ami-update-break-your-salt-stuff</id>
-    <content type="html"><![CDATA[<h3>The issue:</h3>
+    <content type="html"><![CDATA[<h3>Edit 05-11-2015</h3>
+
+<p>This has long since been fixed thanks to Salt getting a newer version out there.</p>
+
+<h3>The issue:</h3>
 
 <p>Amazon had an AMI update that changed the default python from 2.6 to 2.7. This caused my Salt infrastructure to freak the fuck out and stop working. &ldquo;But Phil, why don&rsquo;t you bake your own AMI?&rdquo; and to that I say, &ldquo;Soon, this is a whole new territory to me.&rdquo;</p>
 
@@ -85,11 +98,106 @@
     <link href="http://philporada.com/blog/2015/04/07/configuring-autofs/"/>
     <updated>2015-04-07T16:50:32+00:00</updated>
     <id>http://philporada.com/blog/2015/04/07/configuring-autofs</id>
-    <content type="html"><![CDATA[<p>Don&rsquo;t run me</p>
+    <content type="html"><![CDATA[<h2>Installation</h2>
 
-<figure class='code'><figcaption><span>RRllr</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -sL http://bit.ly/10hA8iC <span class="p">|</span> bash
+<h3>Centos/RHEL</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum install autofs</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Debian/Ubuntu</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>apt-get install autofs</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Configuration</h2>
+
+<p>Here is an example that I use on my laptop to mount several Windows shares via CIFS. My end goal is that I want the following folder structure to exist and contain mounts to the appropriate folders on our Windows file server.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/mnt
+</span><span class='line'>└── windowsbox/
+</span><span class='line'>    ├── documentation/
+</span><span class='line'>    └── software/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create the mater file</p>
+
+<figure class='code'><figcaption><span>/etc/auto.master</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo cat &lt;&lt; <span class="s2">&quot;EOL&quot;</span> &gt; /etc/auto.master
+</span><span class='line'>/mnt/phil     /etc/auto.cifs-shares   --timeout<span class="o">=</span><span class="m">60</span>            --ghost
+</span><span class='line'>EOL
 </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create the mapping of Linux folders to your Windows server</p>
+
+<figure class='code'><figcaption><span>/etc/auto.cifs-shares</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo cat &lt;&lt; <span class="s2">&quot;EOL&quot;</span> &gt; /etc/auto.cifs-shares
+</span><span class='line'>documentation           -fstype<span class="o">=</span>cifs,rw,credentials<span class="o">=</span>/etc/auto.cifs.WindowsBoxHostname,sec<span class="o">=</span>ntlm    ://<span class="nv">$WINDOWSBOXHOSTNAME</span>/Documentation
+</span><span class='line'>software           -fstype<span class="o">=</span>cifs,rw,credentials<span class="o">=</span>/etc/auto.cifs.WindowsBoxHostname,sec<span class="o">=</span>ntlm    ://<span class="nv">$WINDOWSBOXHOSTNAME</span>/Software
+</span><span class='line'>EOL
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Configure creds for each box that you&rsquo;re connection to.</p>
+
+<figure class='code'><figcaption><span>/etc/auto.cifs.$WINDOWSBOXHOSTNAME</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo cat &lt;&lt; <span class="s2">&quot;EOL&quot;</span> &gt; /etc/auto.cifs.<span class="nv">$WINDOWSBOXHOSTNAME</span>
+</span><span class='line'><span class="nv">username</span><span class="o">=</span><span class="nv">$ADUSER</span>
+</span><span class='line'><span class="nv">password</span><span class="o">=</span><span class="nv">$ADPASSWORD</span>
+</span><span class='line'>EOL
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You&rsquo;ll want your files to have the following permissions so that no one can</p>
+
+<figure class='code'><figcaption><span>Set these permissions</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo chmod +x /etc/auto.master
+</span><span class='line'>sudo chmod <span class="m">644</span> /etc/auto.cifs-shares
+</span><span class='line'>sudo chmod <span class="m">600</span> /etc/auto.cifs.<span class="nv">$SERVERNAME</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Restart the service.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>service autofs restart
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Verify that there are no errors in either /var/log/syslog on a Debian based system or /var/log/messages on a RHEL based system.</p>
+
+<h2>Referencs</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>https://help.ubuntu.com/community/Autofs
+</span><span class='line'>
+</span><span class='line'>https://wiki.archlinux.org/index.php/Autofs
+</span><span class='line'>
+</span><span class='line'>https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Storage_Administration_Guide/s2-nfs-config-autofs.html
+</span></code></pre></td></tr></table></div></figure>
+
+
 
 ]]></content>
   </entry>

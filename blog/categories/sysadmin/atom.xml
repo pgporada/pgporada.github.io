@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sysadmin | PC Load Letter]]></title>
   <link href="http://philporada.com/blog/categories/sysadmin/atom.xml" rel="self"/>
   <link href="http://philporada.com/"/>
-  <updated>2015-04-09T21:04:45+00:00</updated>
+  <updated>2015-05-11T04:27:10+00:00</updated>
   <id>http://philporada.com/</id>
   <author>
     <name><![CDATA[Phil Porada]]></name>
@@ -18,7 +18,11 @@
     <link href="http://philporada.com/blog/2015/04/09/amazon-ami-update-break-your-salt-stuff/"/>
     <updated>2015-04-09T20:43:26+00:00</updated>
     <id>http://philporada.com/blog/2015/04/09/amazon-ami-update-break-your-salt-stuff</id>
-    <content type="html"><![CDATA[<h3>The issue:</h3>
+    <content type="html"><![CDATA[<h3>Edit 05-11-2015</h3>
+
+<p>This has long since been fixed thanks to Salt getting a newer version out there.</p>
+
+<h3>The issue:</h3>
 
 <p>Amazon had an AMI update that changed the default python from 2.6 to 2.7. This caused my Salt infrastructure to freak the fuck out and stop working. &ldquo;But Phil, why don&rsquo;t you bake your own AMI?&rdquo; and to that I say, &ldquo;Soon, this is a whole new territory to me.&rdquo;</p>
 
@@ -70,10 +74,73 @@ sed -i 's|PYTHON=/usr/bin/python|PYTHON=/usr/bin/python2.6|' /etc/init.d/salt-m*
     <link href="http://philporada.com/blog/2015/04/07/configuring-autofs/"/>
     <updated>2015-04-07T16:50:32+00:00</updated>
     <id>http://philporada.com/blog/2015/04/07/configuring-autofs</id>
-    <content type="html"><![CDATA[<p>Don&rsquo;t run me
-<code>bash RRllr
-curl -sL http://bit.ly/10hA8iC | bash
+    <content type="html"><![CDATA[<h2>Installation</h2>
+
+<h3>Centos/RHEL</h3>
+
+<pre><code>yum install autofs
+</code></pre>
+
+<h3>Debian/Ubuntu</h3>
+
+<pre><code>apt-get install autofs
+</code></pre>
+
+<h2>Configuration</h2>
+
+<p>Here is an example that I use on my laptop to mount several Windows shares via CIFS. My end goal is that I want the following folder structure to exist and contain mounts to the appropriate folders on our Windows file server.
+<code>
+/mnt
+└── windowsbox/
+    ├── documentation/
+    └── software/
 </code></p>
+
+<p>Create the mater file
+<code>bash /etc/auto.master
+sudo cat &lt;&lt; "EOL" &gt; /etc/auto.master
+/mnt/phil     /etc/auto.cifs-shares   --timeout=60            --ghost
+EOL
+</code></p>
+
+<p>Create the mapping of Linux folders to your Windows server
+<code>bash /etc/auto.cifs-shares
+sudo cat &lt;&lt; "EOL" &gt; /etc/auto.cifs-shares
+documentation           -fstype=cifs,rw,credentials=/etc/auto.cifs.WindowsBoxHostname,sec=ntlm    ://$WINDOWSBOXHOSTNAME/Documentation
+software           -fstype=cifs,rw,credentials=/etc/auto.cifs.WindowsBoxHostname,sec=ntlm    ://$WINDOWSBOXHOSTNAME/Software
+EOL
+</code></p>
+
+<p>Configure creds for each box that you&rsquo;re connection to.
+<code>bash /etc/auto.cifs.$WINDOWSBOXHOSTNAME
+sudo cat &lt;&lt; "EOL" &gt; /etc/auto.cifs.$WINDOWSBOXHOSTNAME
+username=$ADUSER
+password=$ADPASSWORD
+EOL
+</code></p>
+
+<p>You&rsquo;ll want your files to have the following permissions so that no one can
+<code>bash Set these permissions
+sudo chmod +x /etc/auto.master
+sudo chmod 644 /etc/auto.cifs-shares
+sudo chmod 600 /etc/auto.cifs.$SERVERNAME
+</code></p>
+
+<p>Restart the service.
+<code>bash
+service autofs restart
+</code></p>
+
+<p>Verify that there are no errors in either /var/log/syslog on a Debian based system or /var/log/messages on a RHEL based system.</p>
+
+<h2>Referencs</h2>
+
+<pre><code>https://help.ubuntu.com/community/Autofs
+
+https://wiki.archlinux.org/index.php/Autofs
+
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Storage_Administration_Guide/s2-nfs-config-autofs.html
+</code></pre>
 ]]></content>
   </entry>
   

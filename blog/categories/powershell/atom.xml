@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Powershell | PC Load Letter]]></title>
+  <link href="http://philporada.com/blog/categories/powershell/atom.xml" rel="self"/>
+  <link href="http://philporada.com/"/>
+  <updated>2015-05-11T04:27:10+00:00</updated>
+  <id>http://philporada.com/</id>
+  <author>
+    <name><![CDATA[Phil Porada]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Powershell Watching a Folder for File Creation Events]]></title>
+    <link href="http://philporada.com/blog/2015/05/11/powershell-watching-a-folder-for-file-creation-events/"/>
+    <updated>2015-05-11T04:12:37+00:00</updated>
+    <id>http://philporada.com/blog/2015/05/11/powershell-watching-a-folder-for-file-creation-events</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+</feed>

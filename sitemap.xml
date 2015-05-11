@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://philporada.com/blog/2015/05/11/powershell-watching-a-folder-for-file-creation-events/</loc>
+    <lastmod>2015-05-11T04:12:37+00:00</lastmod>
+  </url>
+  <url>
     <loc>http://philporada.com/blog/2015/04/09/amazon-ami-update-break-your-salt-stuff/</loc>
     <lastmod>2015-04-09T20:43:26+00:00</lastmod>
   </url>
@@ -25,5 +29,11 @@
   </url>
   <url>
     <loc>http://philporada.com/blog/categories/aws/</loc>
+  </url>
+  <url>
+    <loc>http://philporada.com/blog/categories/windows/</loc>
+  </url>
+  <url>
+    <loc>http://philporada.com/blog/categories/powershell/</loc>
   </url>
 </urlset>
